@@ -9,7 +9,7 @@ export default function QuizPage() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 py-8">
       <div className="container mx-auto px-4 max-w-6xl">
         
-        {/* Navigation Card */}
+        
         <div className="bg-white rounded-xl shadow-md p-4 mb-6">
           <Link 
             to="/dashboard" 
@@ -19,20 +19,20 @@ export default function QuizPage() {
           </Link>
         </div>
 
-        {/* Header Card */}
+        
         <div className="bg-white rounded-xl shadow-lg p-8 mb-6 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-3">
-            🌱 Eco-Footprint Assessment
+            🌱 CarbonIndex Assessment
           </h1>
           <p className="text-lg text-gray-600">
             Complete our comprehensive 10-question assessment to discover your environmental impact
           </p>
         </div>
 
-        {/* Quiz Component */}
+        
         <EcoFootprintQuiz onComplete={() => setQuizCompleted(true)} />
 
-        {/* Completion Card */}
+      
         {quizCompleted && (
           <div className="mt-8">
             <div className="bg-gradient-to-r from-green-100 to-green-50 border-2 border-green-200 rounded-xl p-8 text-center">

@@ -64,12 +64,10 @@ const SCORING = {
   }
 };
 
-// Simplified function to store pre-calculated score from frontend
 const submitScore = async (req, res) => {
   try {
     const { userId, totalScore} = req.body;
 
-    // Validate required fields
     if (!userId || totalScore === undefined) {
       return res.status(400).json({
         success: false,
@@ -77,7 +75,6 @@ const submitScore = async (req, res) => {
       });
     }
 
-    // Validate score range
     if (totalScore < 0 || totalScore > 100) {
       return res.status(400).json({
         success: false,
@@ -185,13 +182,13 @@ const getLeaderboard = async (req, res) => {
    
     const leaderboard = await EcoFootprint.aggregate([
       {
-        $sort: { createdAt: -1 } // Sort by latest first to ensure $first gets the latest record
+        $sort: { createdAt: -1 }
       },
       {
         $group: {
           _id: '$userId',
           bestScore: { $min: '$totalScore' },
-          latestScore: { $first: '$totalScore' }, // Changed from $last to $first since we sorted by latest
+          latestScore: { $first: '$totalScore' },
           latestCategory: { $first: '$category' },
           latestDate: { $first: '$createdAt' },
           totalAttempts: { $sum: 1 },
@@ -199,7 +196,7 @@ const getLeaderboard = async (req, res) => {
         }
       },
       {
-        $sort: { bestScore: 1 } // Sort by best score (lowest first for eco-footprint)
+        $sort: { bestScore: 1 }
       },
       {
         $project: {
@@ -215,7 +212,6 @@ const getLeaderboard = async (req, res) => {
       }
     ]);
 
-    // Add ranking position
     const leaderboardWithRank = leaderboard.map((user, index) => ({
       rank: index + 1,
       ...user

@@ -12,7 +12,7 @@ export default function LeaderboardPage() {
   });
 
   useEffect(() => {
-    // Fetch leaderboard stats
+   
     const fetchStats = async () => {
       try {
         const response = await fetch('http://localhost:3000/api/leaderboard');
@@ -37,7 +37,7 @@ export default function LeaderboardPage() {
   return (
     <div className="min-h-screen py-8">
       <div className="container mx-auto px-4">
-        {/* Header */}
+        
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             🏆 Global Eco Leaderboard
@@ -47,7 +47,7 @@ export default function LeaderboardPage() {
           </p>
         </div>
 
-        {/* Stats Cards */}
+       
         <div className="grid md:grid-cols-3 gap-6 mb-8 max-w-4xl mx-auto">
           <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 border border-green-200 shadow-lg text-center">
             <div className="text-3xl font-bold text-green-600 mb-2">{stats.totalUsers}</div>
@@ -65,7 +65,7 @@ export default function LeaderboardPage() {
           </div>
         </div>
 
-        {/* Call to Action for Non-Users */}
+        
         <SignedOut>
           <div className="bg-gradient-to-r from-green-50/80 to-blue-50/80 backdrop-blur-sm border border-green-200 rounded-lg p-6 mb-8 text-center">
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -83,7 +83,7 @@ export default function LeaderboardPage() {
           </div>
         </SignedOut>
 
-        {/* User Status for Signed In Users */}
+        
         <SignedIn>
           <div className="bg-white/60 backdrop-blur-sm border border-green-200 rounded-lg p-4 mb-8 text-center">
             <p className="text-gray-700">

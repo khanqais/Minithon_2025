@@ -10,7 +10,6 @@ const ecoFootprintSchema = new mongoose.Schema({
 
   
 
-  // Total score
   totalScore: {
     type: Number,
     required: true,
@@ -18,14 +17,12 @@ const ecoFootprintSchema = new mongoose.Schema({
     max: 100
   },
 
-  // Footprint category based on score
   category: {
     type: String,
     enum: ['Low Impact', 'Moderate Impact', 'High Impact', 'Very High Impact'],
     required: true
   },
 
-  // Timestamp
   createdAt: {
     type: Date,
     default: Date.now
@@ -39,10 +36,8 @@ const ecoFootprintSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for efficient queries
 ecoFootprintSchema.index({ userId: 1, createdAt: -1 });
 
-// Method to calculate category based on score
 ecoFootprintSchema.methods.calculateCategory = function() {
   if (this.totalScore <= 25) {
     return 'Low Impact';
@@ -55,7 +50,6 @@ ecoFootprintSchema.methods.calculateCategory = function() {
   }
 };
 
-// Pre-save hook to update category and timestamps
 ecoFootprintSchema.pre('save', function(next) {
   this.category = this.calculateCategory();
   this.updatedAt = Date.now();

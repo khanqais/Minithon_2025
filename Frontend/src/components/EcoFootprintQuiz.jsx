@@ -287,7 +287,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-lg font-semibold text-gray-800">Assessment Progress</h3>
-            <p className="text-sm text-gray-600">Answer all questions to get your eco-footprint score</p>
+            <p className="text-sm text-gray-600">Answer all questions to get your CarbonIndex score</p>
           </div>
           <div className="text-right">
             <div className="text-2xl font-bold text-green-600">{filledCount}/{questions.length}</div>
@@ -367,7 +367,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
       {/* Results Card */}
       <div className="bg-white rounded-xl shadow-lg p-8">
         <div className="text-center mb-6">
-          <h3 className="text-2xl font-bold text-gray-800 mb-2">Your Eco-Footprint Results</h3>
+          <h3 className="text-2xl font-bold text-gray-800 mb-2">Your CarbonIndex Results</h3>
           <div className="w-16 h-1 bg-green-500 rounded-full mx-auto"></div>
         </div>
 
