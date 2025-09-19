@@ -11,7 +11,7 @@ export default function HomePage() {
         <div className="container mx-auto text-center max-w-4xl">
           <div className="mb-8">
             <h1 className="text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              🌱 Eco Footprint
+              🌱Carbon Footprint
               <span className="block text-green-600">Calculator</span>
             </h1>
             <p className="text-xl text-gray-700 mb-8 leading-relaxed">
@@ -19,7 +19,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* CTA Buttons */}
+         
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <SignedOut>
               <Link

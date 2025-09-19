@@ -13,7 +13,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
       id: "commute",
       title: "What is your primary mode of commuting?",
       category: "Transportation",
-      icon: "🚗",
+      
       options: [
         { id: "walk_bike", label: "Walk or Bike", points: 0 },
         { id: "public_transport", label: "Public Transport", points: 2 },
@@ -26,7 +26,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
       id: "drivingMiles",
       title: "How many miles do you drive per week?",
       category: "Transportation",
-      icon: "📏",
+      
       options: [
         { id: "0_50", label: "0-50 miles", points: 1 },
         { id: "51_150", label: "51-150 miles", points: 3 },
@@ -38,7 +38,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
       id: "flights",
       title: "How often do you fly per year?",
       category: "Transportation",
-      icon: "✈️",
+      
       options: [
         { id: "none", label: "Never", points: 0 },
         { id: "1_2_domestic", label: "1-2 domestic flights", points: 4 },
@@ -50,7 +50,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
       id: "homeEnergy",
       title: "What type of energy does your home primarily use?",
       category: "Energy",
-      icon: "⚡",
+      
       options: [
         { id: "renewable", label: "Renewable Energy (Solar/Wind)", points: 1 },
         { id: "natural_gas", label: "Natural Gas", points: 5 },
@@ -62,7 +62,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
       id: "lightsOff",
       title: "How often do you turn off lights when leaving a room?",
       category: "Energy",
-      icon: "💡",
+      
       options: [
         { id: "always", label: "Always", points: 1 },
         { id: "usually", label: "Usually", points: 2 },
@@ -74,7 +74,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
       id: "unplugElectronics",
       title: "How often do you unplug electronics when not in use?",
       category: "Energy",
-      icon: "🔌",
+      
       options: [
         { id: "always", label: "Always", points: 1 },
         { id: "often", label: "Often", points: 2 },
@@ -86,7 +86,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
       id: "meatConsumption",
       title: "How often do you eat meat?",
       category: "Food & Lifestyle",
-      icon: "🥩",
+      
       options: [
         { id: "never_vegetarian", label: "Never (Vegetarian/Vegan)", points: 1 },
         { id: "1_2_times_week", label: "1-2 times per week", points: 3 },
@@ -98,7 +98,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
       id: "foodShopping",
       title: "Where do you primarily shop for food?",
       category: "Food & Lifestyle",
-      icon: "🛒",
+      
       options: [
         { id: "farmers_market", label: "Farmers Market/Local", points: 2 },
         { id: "grocery_fresh", label: "Grocery Store (Fresh Products)", points: 4 },
@@ -110,7 +110,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
       id: "clothesShopping",
       title: "How often do you buy new clothes?",
       category: "Consumption",
-      icon: "👕",
+      
       options: [
         { id: "rarely_secondhand", label: "Rarely/Second-hand only", points: 1 },
         { id: "few_times_year", label: "A few times per year", points: 3 },
@@ -122,7 +122,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
       id: "wasteHandling",
       title: "How do you handle waste and recycling?",
       category: "Waste",
-      icon: "♻️",
+     
       options: [
         { id: "recycle_compost_all", label: "Recycle & compost everything", points: 1 },
         { id: "recycle_most", label: "Recycle most items", points: 3 },
@@ -132,7 +132,6 @@ export default function EcoFootprintQuiz({ onComplete }) {
     },
   ];
 
-  // Initialize answers state with nulls
   const initialAnswers = useMemo(() => {
     const map = {};
     questions.forEach((q) => (map[q.id] = null));
@@ -141,7 +140,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
 
   const [answers, setAnswers] = useState(initialAnswers);
 
-  // compute total and max
+  
   const { total, maxTotal, filledCount } = useMemo(() => {
     let t = 0;
     let m = 0;
@@ -149,7 +148,6 @@ export default function EcoFootprintQuiz({ onComplete }) {
     questions.forEach((q) => {
       const optionPoints = answers[q.id] != null ? answers[q.id] : 0;
       t += optionPoints;
-      // maximum for this question is the highest option points
       const qMax = q.options.reduce((a, b) => (a.points > b.points ? a : b)).points;
       m += qMax;
       if (answers[q.id] != null) filled++;
@@ -159,25 +157,22 @@ export default function EcoFootprintQuiz({ onComplete }) {
 
   const percentage = Math.round((total / maxTotal) * 100 || 0);
 
-  // derive category and tips
   const category = useMemo(() => {
-    // lower score -> better (we set low points for eco-friendly)
     if (total <= 25) {
-      return "Low Impact ✔️";
+      return "Low Impact ";
     }
     if (total <= 45) {
-      return "Moderate Impact ⚠️";
+      return "Moderate Impact ";
     }
     if (total <= 70) {
-      return "High Impact 🔥";
+      return "High Impact ";
     }
-    return "Very High Impact 🚨";
+    return "Very High Impact ";
   }, [total]);
 
   const suggestions = useMemo(() => {
     const tips = [];
     
-    // commute tips
     if (answers.commute === "suv_truck") {
       tips.push("Consider switching to a fuel-efficient vehicle or using public transport occasionally.");
     }
@@ -185,12 +180,10 @@ export default function EcoFootprintQuiz({ onComplete }) {
       tips.push("Excellent! Walking and biking are the most eco-friendly commute options.");
     }
     
-    // driving tips
     if (answers.drivingMiles === "300_plus") {
       tips.push("Try to combine trips and consider carpooling for long distances.");
     }
     
-    // flight tips
     if (answers.flights === "6_plus_international") {
       tips.push("Consider video conferencing for business and choosing closer vacation destinations.");
     }
@@ -259,7 +252,7 @@ export default function EcoFootprintQuiz({ onComplete }) {
 
       if (response.ok && data.success) {
         setSubmitSuccess(true);
-        setTimeout(() => setSubmitSuccess(false), 5000); // Hide success message after 5 seconds
+        setTimeout(() => setSubmitSuccess(false), 5000);
         
         // Call onComplete callback if provided
         if (onComplete) {

@@ -17,7 +17,7 @@ function AuthPage() {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-8">
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-8 max-w-md w-full border border-white/30">
-          <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">Welcome to Eco Footprint</h1>
+          <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">Welcome to CarbonIndex</h1>
           
           <div className="space-y-6">
             <div className="flex flex-col items-center">

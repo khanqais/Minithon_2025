@@ -249,15 +249,15 @@ function Dashboard() {
           }}
         />
         
-        {/* Content */}
+        
         <main className="relative z-10 w-full min-h-screen overflow-auto">
-          {/* Foreground Content */}
+          
           <section className="relative p-4 md:p-6 lg:p-8">
             <div className="max-w-7xl mx-auto">
-              {/* Header */}
+              
               <div className="text-center mb-8">
                 <h1 className="text-4xl font-bold text-gray-900 mb-2 drop-shadow-sm">
-                  🌍 Eco-Footprint Dashboard
+                   Eco-Footprint Dashboard
                 </h1>
                 <p className="text-gray-700 text-lg">
                   Track, compare, and reduce your environmental impact

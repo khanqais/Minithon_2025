@@ -36,17 +36,17 @@ const Header = () => {
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center py-4">
               
-              {/* Logo */}
+              
               <Link to="/" className="flex items-center space-x-3 group">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 rounded-xl blur opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="relative bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-2 group-hover:scale-110 transition-transform duration-200">
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 rounded-xl blur opacity-75 transition-opacity"></div>
+                  <div className="relative bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-2 transition-transform duration-200">
                     <div className="text-2xl">🌱</div>
                   </div>
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    EcoFootprint
+                    CarbonIndex
                   </h1>
                   <p className="text-xs text-gray-700 -mt-1">Carbon Impact Tracker</p>
                 </div>
@@ -61,13 +61,13 @@ const Header = () => {
                     className={`group relative flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
                       isActive(item.path)
                         ? 'text-gray-900 shadow-lg'
-                        : 'text-gray-700 hover:text-gray-900 hover:scale-105'
+                        : 'text-gray-700'
                     }`}
                   >
                     {isActive(item.path) && (
                       <div className="absolute inset-0 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl shadow-xl"></div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-blue-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-blue-500/20 rounded-xl opacity-0 transition-opacity duration-300"></div>
                     <span className="relative z-10 text-lg">{item.icon}</span>
                     <span className="relative z-10">{item.label}</span>
                   </Link>
@@ -81,13 +81,13 @@ const Header = () => {
                       className={`group relative flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
                         isActive(item.path)
                           ? 'text-gray-900 shadow-lg'
-                          : 'text-gray-700 hover:text-gray-900 hover:scale-105'
+                          : 'text-gray-700'
                       }`}
                     >
                       {isActive(item.path) && (
                         <div className="absolute inset-0 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl shadow-xl"></div>
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-blue-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-blue-500/20 rounded-xl opacity-0 transition-opacity duration-300"></div>
                       <span className="relative z-10 text-lg">{item.icon}</span>
                       <span className="relative z-10">{item.label}</span>
                     </Link>
@@ -112,7 +112,7 @@ const Header = () => {
                         <UserButton 
                           appearance={{
                             elements: {
-                              avatarBox: "w-10 h-10 transition-all duration-200 hover:scale-110",
+                              avatarBox: "w-10 h-10 transition-all duration-200",
                               userButtonPopoverCard: "backdrop-blur-xl bg-white/80 border border-white/30 shadow-2xl",
                             }
                           }}
@@ -141,8 +141,8 @@ const Header = () => {
                 
                 <SignedOut>
                   <SignInButton mode="modal">
-                    <button className="group relative bg-white/20 backdrop-blur-sm border border-white/30 text-gray-900 px-6 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
-                      <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-blue-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <button className="group relative bg-white/20 backdrop-blur-sm border border-white/30 text-gray-900 px-6 py-2 rounded-xl font-medium transition-all duration-300 shadow-lg">
+                      <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-blue-500/20 rounded-xl opacity-0 transition-opacity duration-300"></div>
                       <span className="relative z-10 flex items-center space-x-2">
                         <span>🔑</span>
                         <span>Sign In</span>
@@ -154,9 +154,9 @@ const Header = () => {
                 {/* Mobile Menu Button */}
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="lg:hidden relative bg-white/20 backdrop-blur-sm border border-white/30 p-2 rounded-xl text-gray-900 hover:text-gray-900 transition-all duration-300 hover:scale-105 shadow-lg"
+                  className="lg:hidden relative bg-white/20 backdrop-blur-sm border border-white/30 p-2 rounded-xl text-gray-900 transition-all duration-300 shadow-lg"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-blue-500/20 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-blue-500/20 rounded-xl opacity-0 transition-opacity duration-300"></div>
                   <svg className="relative z-10 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     {isMobileMenuOpen ? (
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -180,13 +180,13 @@ const Header = () => {
                       className={`group relative flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
                         isActive(item.path)
                           ? 'text-gray-900 shadow-lg'
-                          : 'text-gray-700 hover:text-gray-900'
+                          : 'text-gray-700'
                       }`}
                     >
                       {isActive(item.path) ? (
                         <div className="absolute inset-0 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl shadow-xl"></div>
                       ) : (
-                        <div className="absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl opacity-0 transition-opacity duration-300"></div>
                       )}
                       <span className="relative z-10 text-lg">{item.icon}</span>
                       <span className="relative z-10">{item.label}</span>
@@ -202,13 +202,13 @@ const Header = () => {
                         className={`group relative flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
                           isActive(item.path)
                             ? 'text-gray-900 shadow-lg'
-                            : 'text-gray-700 hover:text-gray-900'
+                            : 'text-gray-700'
                         }`}
                       >
                         {isActive(item.path) ? (
                           <div className="absolute inset-0 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl shadow-xl"></div>
                         ) : (
-                          <div className="absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <div className="absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl opacity-0 transition-opacity duration-300"></div>
                         )}
                         <span className="relative z-10 text-lg">{item.icon}</span>
                         <span className="relative z-10">{item.label}</span>
@@ -220,7 +220,7 @@ const Header = () => {
                     <SignInButton mode="modal">
                       <button 
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="group relative w-full text-left flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-900 transition-all duration-300 hover:scale-[1.02]"
+                        className="group relative w-full text-left flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-900 transition-all duration-300"
                       >
                         <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 via-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/30 rounded-xl shadow-xl"></div>
                         <span className="relative z-10 text-lg">🔑</span>

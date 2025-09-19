@@ -41,7 +41,7 @@ function UserProfile() {
         
         <div className="relative z-10 flex justify-center items-center min-h-screen">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 text-center border border-white/30">
-            <div className="text-6xl mb-4">🔒</div>
+            <div className="text-6xl mb-4"></div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Required</h2>
             <p className="text-gray-600">Please sign in to view your profile</p>
           </div>
