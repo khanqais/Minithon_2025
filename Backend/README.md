@@ -27,7 +27,78 @@ cp .env.example .env
 
 ## API Endpoints
 
-### 1. Submit Quiz
+### 1. Submit Pre-calculated Score (Recommended for Frontend)
+**POST** `/api/score/submit`
+
+Submit a pre-calculated score from your frontend application.
+
+**Request Body:**
+```json
+{
+  "userId": "user_clerk_id_here",
+  "totalScore": 25,
+  "category": "Low Impact"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Score submitted successfully",
+  "data": {
+    "totalScore": 25,
+    "category": "Low Impact",
+    "id": "score_record_id",
+    "timestamp": "2025-09-19T..."
+  }
+}
+```
+
+### 2. Submit Detailed Quiz (Original)
+**POST** `/api/quiz/submit`
+
+Submit eco-footprint quiz answers and get calculated score (backend calculation).
+
+**Request Body:**
+```json
+{
+  "userId": "user_clerk_id_here",
+  "answers": {
+    "commute": "walk_bike",
+    "drivingMiles": "0_50",
+    "flights": "none",
+    "homeEnergy": "renewable",
+    "lightsOff": "always",
+    "unplugElectronics": "always",
+    "meatConsumption": "never_vegetarian",
+    "foodShopping": "farmers_market",
+    "clothesShopping": "rarely_secondhand",
+    "wasteHandling": "recycle_compost_all"
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Quiz submitted successfully",
+  "data": {
+    "totalScore": 15,
+    "category": "Low Impact",
+    "scores": {
+      "transportation": 1,
+      "energy": 3,
+      "diet": 6,
+      "waste": 1
+    },
+    "id": "quiz_result_id"
+  }
+}
+```
+
+### 3. Get User Results
 **POST** `/api/quiz/submit`
 
 Submit eco-footprint quiz answers and get calculated score.
@@ -92,10 +163,10 @@ Retrieve user's quiz results and history.
 }
 ```
 
-### 3. Get Leaderboard
+### 3. Get Complete Leaderboard
 **GET** `/api/leaderboard`
 
-Get top 10 users with the lowest eco-footprint scores.
+Get all users ranked by their best eco-footprint scores in ascending order (lowest = best).
 
 **Response:**
 ```json
@@ -103,12 +174,28 @@ Get top 10 users with the lowest eco-footprint scores.
   "success": true,
   "data": [
     {
+      "rank": 1,
       "userId": "user_1",
       "bestScore": 12,
+      "latestScore": 15,
       "category": "Low Impact",
-      "lastUpdated": "2025-09-19T..."
+      "lastUpdated": "2025-09-19T...",
+      "totalAttempts": 3,
+      "averageScore": 14.2
+    },
+    {
+      "rank": 2,
+      "userId": "user_2",
+      "bestScore": 18,
+      "latestScore": 18,
+      "category": "Low Impact",
+      "lastUpdated": "2025-09-19T...",
+      "totalAttempts": 1,
+      "averageScore": 18.0
     }
-  ]
+  ],
+  "totalUsers": 25,
+  "message": "Complete leaderboard sorted by best scores (lowest = best for eco-footprint)"
 }
 ```
 

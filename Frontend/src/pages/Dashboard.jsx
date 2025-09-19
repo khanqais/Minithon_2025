@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import ProtectedRoute from '../components/ProtectedRoute';
 import EcoFootprintQuiz from '../components/EcoFootprintQuiz';
-import Leaderboard from '../components/Leaderboard';
+
 import { 
   Trophy, 
   Leaf, 
@@ -14,6 +14,7 @@ import {
   BarChart3,
   Play
 } from 'lucide-react';
+import Leaderboard from '../components/LeaderboardFixed';
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -24,7 +25,7 @@ function Dashboard() {
     ecoScore: 0
   });
 
-  // Mock user data - in real app, this would come from your backend
+  
   useEffect(() => {
     // Simulate loading user stats
     setUserStats({
@@ -174,7 +175,7 @@ function Dashboard() {
       case 'leaderboard':
         return (
           <div className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-            <Leaderboard />
+           <Leaderboard/>
           </div>
         );
 
@@ -236,38 +237,47 @@ function Dashboard() {
 
   return (
     <ProtectedRoute>
-      <main className="relative w-full min-h-screen overflow-auto">
-        {/* Background 3D Animation */}
-        {/* <div className="fixed inset-0 -z-10 pointer-events-none">
-          <Spline scene="https://prod.spline.design/T20WqSWDiFIluah125X56gnz/scene.splinecode" />
-        </div> */}
+      <div className="min-h-screen w-full bg-white relative">
+        {/* Emerald Glow Background */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: `
+              radial-gradient(125% 125% at 50% 10%, #ffffff 40%, #10b981 100%)
+            `,
+            backgroundSize: "100% 100%",
+          }}
+        />
+        
+        {/* Content */}
+        <main className="relative z-10 w-full min-h-screen overflow-auto">
+          {/* Foreground Content */}
+          <section className="relative p-4 md:p-6 lg:p-8">
+            <div className="max-w-7xl mx-auto">
+              {/* Header */}
+              <div className="text-center mb-8">
+                <h1 className="text-4xl font-bold text-gray-900 mb-2 drop-shadow-sm">
+                  🌍 Eco-Footprint Dashboard
+                </h1>
+                <p className="text-gray-700 text-lg">
+                  Track, compare, and reduce your environmental impact
+                </p>
+              </div>
 
-        {/* Foreground Content */}
-        <section className="relative z-10 p-4 md:p-6 lg:p-8">
-          <div className="max-w-7xl mx-auto">
-            {/* Header */}
-            <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">
-                🌍 Eco-Footprint Dashboard
-              </h1>
-              <p className="text-white/80 text-lg drop-shadow">
-                Track, compare, and reduce your environmental impact
-              </p>
+              {/* Navigation Tabs */}
+              <div className="flex flex-wrap justify-center gap-2 mb-8 bg-white/60 backdrop-blur-sm rounded-xl p-2 shadow-lg border border-white/30">
+                <TabButton tab="overview" label="Overview" icon={BarChart3} />
+                <TabButton tab="quiz" label="Take Test" icon={Play} />
+                <TabButton tab="leaderboard" label="Leaderboard" icon={Trophy} />
+                <TabButton tab="achievements" label="Achievements" icon={Award} />
+              </div>
+
+              {/* Content */}
+              {renderContent()}
             </div>
-
-            {/* Navigation Tabs */}
-            <div className="flex flex-wrap justify-center gap-2 mb-8 bg-white/20 backdrop-blur-sm rounded-xl p-2">
-              <TabButton tab="overview" label="Overview" icon={BarChart3} />
-              <TabButton tab="quiz" label="Take Test" icon={Play} />
-              <TabButton tab="leaderboard" label="Leaderboard" icon={Trophy} />
-              <TabButton tab="achievements" label="Achievements" icon={Award} />
-            </div>
-
-            {/* Content */}
-            {renderContent()}
-          </div>
-        </section>
-      </main>
+          </section>
+        </main>
+      </div>
     </ProtectedRoute>
   );
 }

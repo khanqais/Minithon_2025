@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // MongoDB Connection
 const connectDB = async () => {
   try {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/minithon_eco';
+    const mongoUri = process.env.MONGODB_URI ;
     await mongoose.connect(mongoUri);
     console.log('MongoDB connected successfully');
   } catch (error) {
@@ -30,7 +30,7 @@ const connectDB = async () => {
 
 connectDB();
 
-// Routes
+
 app.use('/api', appRoutes);
 
 app.get('/', (req, res) => {
@@ -55,13 +55,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Handle 404
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found'
-  });
-});
+
 
 app.listen(port, () => {
   console.log(`Minithon Eco-Footprint API listening on port ${port}`);

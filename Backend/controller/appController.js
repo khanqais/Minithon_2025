@@ -64,71 +64,64 @@ const SCORING = {
   }
 };
 
-const submitQuiz = async (req, res) => {
+// Simplified function to store pre-calculated score from frontend
+const submitScore = async (req, res) => {
   try {
-    const { userId, answers } = req.body;
+    const { userId, totalScore} = req.body;
 
     // Validate required fields
-    if (!userId || !answers) {
+    if (!userId || totalScore === undefined) {
       return res.status(400).json({
         success: false,
-        message: 'User ID and answers are required'
+        message: 'User ID and total score are required'
       });
     }
 
-    // Calculate individual category scores
-    const transportationScore = 
-      SCORING.commute[answers.commute] + 
-      SCORING.drivingMiles[answers.drivingMiles] + 
-      SCORING.flights[answers.flights];
+    // Validate score range
+    if (totalScore < 0 || totalScore > 100) {
+      return res.status(400).json({
+        success: false,
+        message: 'Total score must be between 0 and 100'
+      });
+    }
 
-    const energyScore = 
-      SCORING.homeEnergy[answers.homeEnergy] + 
-      SCORING.lightsOff[answers.lightsOff] + 
-      SCORING.unplugElectronics[answers.unplugElectronics];
+    let impactCategory 
+    if (!impactCategory) {
+      if (totalScore <= 25) {
+        impactCategory = 'Low Impact';
+      } else if (totalScore <= 45) {
+        impactCategory = 'Moderate Impact';
+      } else if (totalScore <= 70) {
+        impactCategory = 'High Impact';
+      } else {
+        impactCategory = 'Very High Impact';
+      }
+    }
 
-    const dietScore = 
-      SCORING.meatConsumption[answers.meatConsumption] + 
-      SCORING.foodShopping[answers.foodShopping] + 
-      SCORING.clothesShopping[answers.clothesShopping];
-
-    const wasteScore = SCORING.wasteHandling[answers.wasteHandling];
-
-    const totalScore = transportationScore + energyScore + dietScore + wasteScore;
-
-    // Create new eco footprint record
+    
     const ecoFootprint = new EcoFootprint({
       userId,
-      answers,
-      scores: {
-        transportation: transportationScore,
-        energy: energyScore,
-        diet: dietScore,
-        waste: wasteScore
-      },
-      totalScore
+      totalScore,
+      category: impactCategory,
+     
+     
     });
 
     await ecoFootprint.save();
 
     res.status(201).json({
       success: true,
-      message: 'Quiz submitted successfully',
+      message: 'Score submitted successfully',
       data: {
         totalScore,
         category: ecoFootprint.category,
-        scores: {
-          transportation: transportationScore,
-          energy: energyScore,
-          diet: dietScore,
-          waste: wasteScore
-        },
-        id: ecoFootprint._id
+        id: ecoFootprint._id,
+        timestamp: ecoFootprint.createdAt
       }
     });
 
   } catch (error) {
-    console.error('Error submitting quiz:', error);
+    console.error('Error submitting score:', error);
     res.status(500).json({
       success: false,
       message: 'Internal server error',
@@ -136,6 +129,8 @@ const submitQuiz = async (req, res) => {
     });
   }
 };
+
+
 
 const getUserResults = async (req, res) => {
   try {
@@ -148,7 +143,7 @@ const getUserResults = async (req, res) => {
       });
     }
 
-    // Get user's most recent result
+
     const latestResult = await EcoFootprint.findOne({ userId })
       .sort({ createdAt: -1 })
       .lean();
@@ -160,7 +155,7 @@ const getUserResults = async (req, res) => {
       });
     }
 
-    // Get all results for trend analysis
+    
     const allResults = await EcoFootprint.find({ userId })
       .sort({ createdAt: -1 })
       .select('totalScore category createdAt')
@@ -187,36 +182,50 @@ const getUserResults = async (req, res) => {
 
 const getLeaderboard = async (req, res) => {
   try {
-    // Get the best (lowest) scores from all users
+   
     const leaderboard = await EcoFootprint.aggregate([
+      {
+        $sort: { createdAt: -1 } // Sort by latest first to ensure $first gets the latest record
+      },
       {
         $group: {
           _id: '$userId',
           bestScore: { $min: '$totalScore' },
-          latestCategory: { $last: '$category' },
-          latestDate: { $max: '$createdAt' }
+          latestScore: { $first: '$totalScore' }, // Changed from $last to $first since we sorted by latest
+          latestCategory: { $first: '$category' },
+          latestDate: { $first: '$createdAt' },
+          totalAttempts: { $sum: 1 },
+          averageScore: { $avg: '$totalScore' }
         }
       },
       {
-        $sort: { bestScore: 1 }
-      },
-      {
-        $limit: 10
+        $sort: { bestScore: 1 } // Sort by best score (lowest first for eco-footprint)
       },
       {
         $project: {
           userId: '$_id',
           bestScore: 1,
+          latestScore: 1,
           category: '$latestCategory',
           lastUpdated: '$latestDate',
+          totalAttempts: 1,
+          averageScore: { $round: ['$averageScore', 1] },
           _id: 0
         }
       }
     ]);
 
+    // Add ranking position
+    const leaderboardWithRank = leaderboard.map((user, index) => ({
+      rank: index + 1,
+      ...user
+    }));
+
     res.json({
       success: true,
-      data: leaderboard
+      data: leaderboardWithRank,
+      totalUsers: leaderboardWithRank.length,
+      message: 'Complete leaderboard sorted by best scores (lowest = best for eco-footprint)'
     });
 
   } catch (error) {
@@ -230,7 +239,8 @@ const getLeaderboard = async (req, res) => {
 };
 
 module.exports = {
-  submitQuiz,
+  
+  submitScore,
   getUserResults,
   getLeaderboard
 };

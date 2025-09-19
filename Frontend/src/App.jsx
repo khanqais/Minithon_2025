@@ -1,47 +1,92 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-react';
 import Header from './components/Header';
 import AuthPage from './pages/AuthPage';
 import Dashboard from './pages/Dashboard';
+import HomePage from './pages/HomePage';
+import QuizPage from './pages/QuizPage';
+import LeaderboardPage from './pages/LeaderboardPage';
+import ProfilePage from './pages/ProfilePage';
+import ProtectedRoute from './components/ProtectedRoute';
+import LoadingSpinner from './components/LoadingSpinner';
+import ErrorBoundary from './components/ErrorBoundary';
 
-import UserProfile from './components/UserProfile';
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Missing Publishable Key")
+}
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <nav className="bg-white shadow-sm border-b p-4">
-          <div className="flex space-x-6">
-            <Link to="/" className="text-eco-blue-600 hover:text-eco-blue-800 font-medium transition-colors">Home</Link>
-            <Link to="/auth" className="text-eco-blue-600 hover:text-eco-blue-800 font-medium transition-colors">Sign In/Up</Link>
-            <Link to="/dashboard" className="text-eco-blue-600 hover:text-eco-blue-800 font-medium transition-colors">Dashboard</Link>
-           
-            <Link to="/profile" className="text-eco-blue-600 hover:text-eco-blue-800 font-medium transition-colors">Profile</Link>
+    
+      <ErrorBoundary>
+        <Router>
+          <div className="min-h-screen w-full bg-white relative">
+            <div
+              className="fixed inset-0 z-0"
+              style={{
+                backgroundImage: `
+                  radial-gradient(125% 125% at 50% 10%, #ffffff 40%, #10b981 100%)
+                `,
+                backgroundSize: "100% 100%",
+              }}
+            />
             
-          </div>
-        </nav>
-        
-        <main className="container mx-auto px-4 py-8">
-          <Routes>
-            <Route path="/" element={
-              <div className="text-center">
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">🌱 Eco Footprint Calculator</h1>
-                <p className="text-xl text-gray-600 mb-8">Discover your environmental impact and learn how to reduce it</p>
-                <div className="bg-eco-green-50 border border-eco-green-200 rounded-lg p-6 max-w-2xl mx-auto">
-                  <p className="text-eco-green-800">Welcome to your journey towards a more sustainable lifestyle!</p>
+            <div className="relative z-10 min-h-screen flex flex-col">
+              <Header />
+              
+              <main className="flex-1">
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/auth" element={
+                    <SignedOut>
+                      <AuthPage />
+                    </SignedOut>
+                  } />
+                  
+                  <Route path="/dashboard" element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  } />
+                  
+                  <Route path="/quiz" element={
+                    <ProtectedRoute>
+                      <QuizPage />
+                    </ProtectedRoute>
+                  } />
+                  
+                  <Route path="/leaderboard" element={<LeaderboardPage />} />
+                  
+                  <Route path="/profile" element={
+                    <ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>
+                  } />
+                  
+                  <Route path="/auth" element={
+                    <SignedIn>
+                      <Navigate to="/dashboard" replace />
+                    </SignedIn>
+                  } />
+                  
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </main>
+              
+              <footer className="bg-white/10 backdrop-blur-sm border-t border-green-200/20 py-6">
+                <div className="container mx-auto px-4 text-center">
+                  <p className="text-gray-700/80 text-sm">
+                    © 2025 Eco Footprint Calculator. Making sustainability accessible for everyone. 🌱
+                  </p>
                 </div>
-              </div>
-            } />
-            <Route path="/auth" element={<AuthPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            
-            <Route path="/profile" element={<UserProfile />} />
-            
-          </Routes>
-        </main>
-      </div>
-    </Router>
+              </footer>
+            </div>
+          </div>
+        </Router>
+      </ErrorBoundary>
+    
   );
 }
 
